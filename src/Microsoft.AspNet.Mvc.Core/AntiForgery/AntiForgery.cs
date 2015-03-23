@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.DataProtection;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNet.WebUtilities;
 using Microsoft.Framework.Internal;
 using Microsoft.Framework.OptionsModel;
 using Microsoft.Framework.WebEncoders;
@@ -123,8 +124,8 @@ namespace Microsoft.AspNet.Mvc
             using (var sha256 = SHA256.Create())
             {
                 var hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(applicationId));
-                var subHash = hash.Take(4).ToArray();
-                return Convert.ToBase64String(subHash);
+                var subHash = hash.Take(8).ToArray();
+                return WebEncoders.Base64UrlEncode(subHash);
             }
         }
     }
